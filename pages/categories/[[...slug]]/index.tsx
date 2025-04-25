@@ -10,18 +10,26 @@ const Categories = () => {
 
     console.log(slugValue);
 
-    const testRouter =[
+    const testRouter = [
         {
-            id: 1, name: 'category 1 ', href: '1'
+            id: 1,
+            name: 'category 1 ',
+            href: '1'
         },
         {
-            id: 2, name: 'category 2 ', href: '2'
+            id: 2,
+            name: 'category 2 ',
+            href: '2'
         },
         {
-            id: 3, name: 'category 3 ', href: '3'
+            id: 3,
+            name: 'category 3 ',
+            href: {
+                pathname: '3',
+                query: { test: 'value' }
+            }
         }
     ]
-
 
     if (slugValue?.length == 0) {
 
@@ -36,10 +44,14 @@ const Categories = () => {
             </>
         )
     } else {
+
         return (
 
             <>
-                <div className='text1' > Categories {slugValue}</div>
+                <div className='border gap-4 p-4 flex flex-col '>
+                    <div className='text1' > Categories {slugValue}</div>
+                    <button onClick={() => router.push('/categories')} className='cursor-pointer'> برگشت</button>
+                </div>
             </>
         )
     }
