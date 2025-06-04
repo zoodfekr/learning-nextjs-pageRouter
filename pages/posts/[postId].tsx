@@ -30,13 +30,17 @@ const PostPage = ({ post }: { post?: posts_type }) => {
 export default PostPage
 
 export const getStaticPaths: GetStaticPaths = async () => {
-    const res = await fetch(`https://jsonplaceholder.typicode.com/posts`)
-    const posts = await res.json()
-    const paths = posts.map((post: posts_type) => ({
-        params: { postId: post.id.toString() }
-    }))
+    // const res = await fetch(`https://jsonplaceholder.typicode.com/posts`)
+    // const posts = await res.json()
+    // const paths = posts.map((post: posts_type) => ({
+    //     params: { postId: post.id.toString() }
+    // }))
     return {
-        paths,
+        paths: [
+            { params: { postId: '1' } },
+            { params: { postId: '2' } },
+            { params: { postId: '3' } },
+        ],
         fallback: true,
     }
 }
