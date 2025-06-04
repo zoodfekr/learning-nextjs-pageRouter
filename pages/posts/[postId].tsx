@@ -1,5 +1,4 @@
 import { GetStaticPaths, GetStaticProps } from 'next'
-import { useRouter } from 'next/router'
 import React from 'react'
 
 
@@ -11,21 +10,15 @@ type posts_type = {
 }
 
 const PostPage = ({ post }: { post?: posts_type }) => {
-    const router = useRouter()
-
-    if (router.isFallback) {
-        return <div>Loading...</div>
-    } else {
-        if (!post) return <div>Post not found</div>
-        else {
-            return (
-                <div className='border flex flex-col p-2 m-1 gap-1'>
-                    <h1>title : {post.title}</h1>
-                    <p>body : {post.body}</p>
-                </div>
-            )
-        }
+    if (!post) {
+        return <div>Post not found</div>
     }
+    return (
+        <div className='border flex flex-col p-2 m-1 gap-1'>
+            <h1>title : {post.title}</h1>
+            <p>body : {post.body}</p>
+        </div>
+    )
 }
 export default PostPage
 
@@ -41,7 +34,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
             { params: { postId: '2' } },
             { params: { postId: '3' } },
         ],
-        fallback: true,
+        fallback: "blocking",
     }
 }
 
