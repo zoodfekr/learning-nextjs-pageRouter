@@ -20,9 +20,9 @@ const index = (props: { posts: posts_type[] }) => {
                         <p > title : {val.title}</p>
                         <Link
                             href={`posts/${val.id}`}
-                            className='border rounded-lg bg-green-100 p-3'
+                            className='border rounded-lg bg-green-100 p-1'
                         >
-                            {val.id}
+                            show {val.id}
                         </Link>
                     </div>
                 )
