@@ -33,7 +33,10 @@ const index = (props: { posts: posts_type[] }) => {
 export default index;
 
 export const getStaticProps = (async () => {
-    const res = await fetch('https://jsonplaceholder.typicode.com/posts')
+    const res = await fetch('http://localhost:9000/posts')
     const posts = await res.json()
-    return { props: { posts } }
+    return { 
+        props: { posts },
+        revalidate: 10 // هر ۱۰ ثانیه یک بار صفحه رفرش می‌شود
+    }
 }) satisfies GetStaticProps<{ posts: posts_type[] }>

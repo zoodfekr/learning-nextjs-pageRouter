@@ -40,7 +40,10 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 export const getStaticProps: GetStaticProps<{ post: posts_type }> = async (context) => {
     const { postId } = context.params as { postId: string }
-    const res = await fetch(`https://jsonplaceholder.typicode.com/posts/${postId}`)
+    const res = await fetch(`http://localhost:9000/posts/${postId}`)
     const post = await res.json()
-    return { props: { post } }
+    return {
+        props: { post },
+        revalidate: 10 // هر ۱۰ ثانیه یک بار صفحه رفرش می‌شود
+    }
 }
