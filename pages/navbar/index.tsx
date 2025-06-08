@@ -8,6 +8,7 @@ const Navbar = () => {
         { id: 2, href: "/about", name: "aboutUs" },
         { id: 3, href: "/users", name: "users" },
         { id: 4, href: "/posts", name: "posts" },
+        { id: 5, href: "/todos", name: "todos" }
     ];
 
     return (
