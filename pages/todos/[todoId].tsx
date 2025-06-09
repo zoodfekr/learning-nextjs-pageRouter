@@ -1,34 +1,25 @@
-'use client'
+
 import { useParams } from 'next/navigation'
 import useSWR from 'swr'
-import NotFound from '@/components/common/NotFound'
+
 import Show_Todo from '@/components/todos/Show_Todo'
 import { TodoType } from '@/types/todos'
 
-const getData = async (url: string): Promise<TodoType> => {
-    const res = await fetch(url)
+const fetcher = async (todoId: string): Promise<TodoType> => {
+    console.log({ todoId })
+    const res = await fetch(`http://localhost:9000/todos/${todoId}`)
     if (!res.ok) throw new Error('Failed to fetch')
     return res.json()
 }
 
 const TodoPage = () => {
-    const params = useParams()
-    const todoId = params?.id as string
 
-    const { data, isLoading, error } = useSWR(
-        todoId ? `http://localhost:9000/todos/${todoId}` : null,
-        getData
-    )
+    const { todoId } = useParams(); // دریافت todoId از پارامترهای URL
+    const { data, error } = useSWR(todoId, fetcher);
 
-    if (isLoading) {
-        return <div>در حال بارگذاری...</div>
-    }
+    if (error) return <div>Failed to load</div>;
+    if (!data) return <div>Loading...</div>;
 
-    if (error || !data) {
-        return <NotFound />
-    }
-
-    return <Show_Todo data={data} />
-}
-
+    return <Show_Todo data={data} />;
+};
 export default TodoPage

@@ -10,13 +10,12 @@ const getData = async () => {
 
 
 const Todos = () => {
-    const { data, isLoading } = useSWR('getTodos', getData)
+    const { data, error } = useSWR('getTodos', getData)
 
-    return isLoading ? (
-        <div>Loading...</div>
-    ) : (
-        <Show_Todos data={data} />
-    )
+    if (error) return <div>Failed to load</div>
+    if (!data) return <div>Loading...</div>
+    return <Show_Todos data={data} />
+
 }
 
 export default Todos
