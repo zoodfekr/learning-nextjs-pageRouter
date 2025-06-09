@@ -8,17 +8,19 @@ import { TodoType } from '@/types/todos'
 const fetcher = async (todoId: string): Promise<TodoType> => {
     console.log({ todoId })
     const res = await fetch(`http://localhost:9000/todos/${todoId}`)
-    if (!res.ok) throw new Error('Failed to fetch')
     return res.json()
 }
+
 
 const TodoPage = () => {
 
     const { todoId } = useParams(); // دریافت todoId از پارامترهای URL
     const { data, error } = useSWR(todoId, fetcher);
 
+    console.log('todoId >>', todoId)
+
     if (error) return <div>Failed to load</div>;
-    if (!data) return <div>Loading...</div>;
+    if (!data) return <div>loading ... </div>;
 
     return <Show_Todo data={data} />;
 };
