@@ -4,13 +4,14 @@ import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import FilteButtons from "./_partials/FilteButtons";
+import { serverUrl } from '@/setting/app'
 
 
 // FUNCTIONS
 export const getServerSideProps = (async (context) => {
     const { postId } = context.query
     const q = postId ? `?postId=${postId}` : ''
-    const res = await fetch(`http://localhost:9000/comments${q}`)
+    const res = await fetch(`${serverUrl}/comments${q}`)
     const comments = await res.json()
     return { props: { comments } }
 }) satisfies GetServerSideProps<{ comments: commmentsType[] }>
@@ -27,7 +28,7 @@ const CommentsPage = ({ comments }: { comments: commmentsType[] }) => {
 
     const handle_filterData = async (id: string) => {
         router.push(`/comments/?postId=${id}`)
-        const res = await fetch(`http://localhost:9000/comments?postId=${id}`)
+        const res = await fetch(`${serverUrl}/comments?postId=${id}`)
         const comments = await res.json()
         setfilteredData(comments)
     }

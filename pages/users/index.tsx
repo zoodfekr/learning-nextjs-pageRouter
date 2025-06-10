@@ -4,6 +4,7 @@ import { UserType } from '@/types/users'
 import { GetServerSideProps } from 'next'
 import React from 'react'
 
+import { serverUrl } from '@/setting/app'
 
 // COMPONENT
 const index = ({ users }: { users: UserType[] }) => {
@@ -20,7 +21,7 @@ export default index
 
 // FUNCTIONS
 export const getServerSideProps = (async () => {
-    const res = await fetch('http://localhost:9000/users')
+    const res = await fetch(`${serverUrl}/users`)
     const users = await res.json()
     return {
         props: { users },

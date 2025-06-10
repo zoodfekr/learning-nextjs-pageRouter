@@ -2,6 +2,7 @@ import NotFound from '@/components/common/NotFound'
 import Show_Post from '@/components/posts/Show_post'
 import { GetStaticPaths, GetStaticProps } from 'next'
 import React from 'react'
+import { serverUrl } from '@/setting/app'
 
 
 type posts_type = {
@@ -39,7 +40,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 export const getStaticProps: GetStaticProps<{ post: posts_type }> = async (context) => {
     const { postId } = context.params as { postId: string }
-    const res = await fetch(`http://localhost:9000/posts/${postId}`)
+    const res = await fetch(`${serverUrl}/posts/${postId}`)
     const post = await res.json()
     return {
         props: { post },

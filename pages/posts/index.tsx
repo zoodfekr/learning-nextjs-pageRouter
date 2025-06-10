@@ -2,6 +2,7 @@ import Show_Posts from '@/components/posts/Show_Posts'
 import { posts_type } from '@/types/posts'
 import { GetStaticProps } from 'next'
 import React from 'react'
+import { serverUrl } from '@/setting/app'
 
 
 
@@ -16,7 +17,7 @@ export default index;
 
 
 export const getStaticProps = (async () => {
-    const res = await fetch('http://localhost:9000/posts')
+    const res = await fetch(`${serverUrl}/posts`)
     const posts = await res.json()
     return {
         props: { posts },

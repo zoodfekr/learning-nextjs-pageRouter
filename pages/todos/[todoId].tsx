@@ -5,6 +5,9 @@ import NotFound from '@/components/common/NotFound'
 import Show_Todo from '@/components/todos/Show_Todo'
 import { TodoType } from '@/types/todos'
 
+import { serverUrl } from '@/setting/app'
+
+
 const getData = async (url: string): Promise<TodoType> => {
     const res = await fetch(url)
     if (!res.ok) throw new Error('Failed to fetch')
@@ -16,7 +19,7 @@ const TodoPage = () => {
     const todoId = params?.todoId as string
 
     const { data, isLoading, error } = useSWR(
-        todoId ? `http://localhost:9000/todos/${todoId}` : null,
+        todoId ? `${serverUrl}/todos/${todoId}` : null,
         getData
     )
 
