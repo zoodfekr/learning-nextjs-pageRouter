@@ -1,8 +1,10 @@
 import NotFound from '@/components/common/NotFound'
 import Show_Post from '@/components/posts/Show_post'
+import { getPostById } from '@/lib/postsService'
 import { GetStaticPaths, GetStaticProps } from 'next'
 import React from 'react'
-import { serverUrl } from '@/setting/app'
+// import { serverUrl } from '@/setting/app'
+// import { getAllPosts } from '@/lib/postsService'
 
 
 type posts_type = {
@@ -12,15 +14,30 @@ type posts_type = {
     body: string
 }
 
-const PostPage = ({ post }: { post?: posts_type }) => {
 
+
+
+export const getStaticProps: GetStaticProps<{ post: posts_type }> = async (context) => {
+
+    const { postId } = context.params as { postId: string }
+
+    // const res = await fetch(`${serverUrl}/posts/${postId}`)
+    // const post = await res.json()
+
+    const post = getPostById(Number(postId))
+
+    // اگر پستی پیدا نشد:
     if (!post) {
-        <NotFound />
-    } else {
-        return <Show_Post data={post} />
+        return {
+            notFound: true,
+        };
     }
+
+    return {
+        props: { post },
+        revalidate: 10,
+    };
 }
-export default PostPage
 
 export const getStaticPaths: GetStaticPaths = async () => {
     // const res = await fetch(`https://jsonplaceholder.typicode.com/posts`)
@@ -38,12 +55,16 @@ export const getStaticPaths: GetStaticPaths = async () => {
     }
 }
 
-export const getStaticProps: GetStaticProps<{ post: posts_type }> = async (context) => {
-    const { postId } = context.params as { postId: string }
-    const res = await fetch(`${serverUrl}/posts/${postId}`)
-    const post = await res.json()
-    return {
-        props: { post },
-        revalidate: 10 // هر ۱۰ ثانیه یک بار صفحه رفرش می‌شود
-    }
+
+
+
+
+
+
+const PostPage = ({ post }: { post?: posts_type }) => {
+
+    if (!post) return <NotFound />
+    return <Show_Post data={post} />
 }
+export default PostPage
+
